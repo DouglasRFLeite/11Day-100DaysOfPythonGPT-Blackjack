@@ -1,3 +1,6 @@
+import random
+import copy
+
 deck = {
     'Ace of Hearts': 1,
     '2 of Hearts': 2,
@@ -53,16 +56,21 @@ deck = {
     'King of Spades': 10
 }
 
-import random
 
 class Deck:
     def __init__(self) -> None:
-        self.deck = deck
-    
+        self.deck = copy.deepcopy(deck)
+
+    def getSize(self):
+        return len(self.deck)
+
     def getCard(self):
         random_key = random.choice(list(self.deck.keys()))
-        random_card = self.deck.pop(random_key)
-        return random_card
-    
+        self.deck.pop(random_key)
+        return random_key
+
+    def getCardValue(card):
+        return deck[card]
+
     def reset(self):
-        self.deck = deck
+        self.deck = copy.deepcopy(deck)
