@@ -1,7 +1,7 @@
 from deck_of_cards import Deck
 
 
-class Dealer:
+class Player:
     def __init__(self):
         self.hand = []
 
@@ -10,13 +10,11 @@ class Dealer:
             self.hand.append([deck.getCard(), face])
 
     def lookAtHand(self):
-        print("Dealers Hand:")
+        print("Players Hand:")
         hand = ""
         for card in self.hand:
-            if card[1] == "up":
-                hand += card[0] + " - "
-            else:
-                hand += "Hidden Card - "
+            hand += card[0] + " - "
+
         print(hand)
 
     def handSum(self):
@@ -32,9 +30,15 @@ class Dealer:
         return self.handSum() > 21
 
     def play(self, deck) -> None:
-        while self.handSum() < 16 and deck.getSize():
-            self.drawCard(deck)
-
+        while (not self.hasBlackJack()) and (not self.hasBust()):
+            players_choice = input("Do you want to draw another card? [Y/N] ").lower()
+            if players_choice == "y":
+                self.drawCard(deck)
+                self.lookAtHand()
+            else:
+                break
+            
     def finalMessage(self, dealers_hand, players_hand):
         print(f"Dealers Hand: {dealers_hand} | Your Hand: {players_hand}")
-        print("Sorry, you lose...")
+        print("Congratulations! You win!")
+

@@ -1,5 +1,20 @@
 from deck_of_cards import Deck
 from dealer import Dealer
+from player import Player
+
+def choose_winner(dealer, player):
+    if dealer.hasBlackJack():
+        return dealer
+    elif player.hasBlackJack():
+        return player
+    elif dealer.hasBust():
+        return player
+    elif player.hasBust():
+        return dealer
+    elif dealer.handSum() >= player.handSum():
+        return dealer
+    else:
+        return player
 
 
 def blackjack():
@@ -8,16 +23,19 @@ def blackjack():
     player = Player()
     deck = Deck()
 
-    dealer.draw_card(deck, face="up")
-    player.draw_card(deck, face="up")
-    dealer.draw_card(deck, face="down")
-    player.draw_card(deck, face="down")
-
-    dealer.play(player.lookAtHand())
-    player.play(dealer.lookAtHand())
+    dealer.drawCard(deck, face="up")
+    player.drawCard(deck, face="up")
+    dealer.drawCard(deck, face="down")
+    player.drawCard(deck, face="down")
+    
+    dealer.lookAtHand()
+    player.lookAtHand()
+    
+    dealer.play(deck)
+    player.play(deck)
 
     winner = choose_winner(dealer, player)
-    print(final_message(winner))
+    winner.finalMessage(dealer.handSum(), player.handSum())
 
 
 if __name__ == "__main__":
